@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Internet Speed</string>
+    <string name="channel_id">default</string>
+    <string name="channel_name">Internet Speed Notification</string>
+    <string name="channel_description">Network Speed Notification</string>
 </resources>

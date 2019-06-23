@@ -1,7 +1,6 @@
 package com.deepak.internetspeed.util
 
 import android.net.TrafficStats
-import android.util.Log
 import java.util.*
 
 class TrafficUtils{
@@ -10,6 +9,7 @@ class TrafficUtils{
         val GB = 1000000000
         val MB = 1000000
         val KB = 1000
+
         fun getDownloadSpeed() : String{
 
             var downloadSpeedOutput = ""
@@ -41,13 +41,12 @@ class TrafficUtils{
             }
 
 
-            if (units != " KB" && mDownloadSpeedWithDecimals < 100) {
-                downloadSpeedOutput = String.format(Locale.US, "%.1f", mDownloadSpeedWithDecimals)
+            downloadSpeedOutput = if (units != " KB" && mDownloadSpeedWithDecimals < 100) {
+                String.format(Locale.US, "%.1f", mDownloadSpeedWithDecimals)
             } else {
-                downloadSpeedOutput = Integer.toString(mDownloadSpeedWithDecimals.toInt())
+                Integer.toString(mDownloadSpeedWithDecimals.toInt())
             }
 
-            Log.d("TSS0",downloadSpeedOutput + units)
             return (downloadSpeedOutput + units)
 
         }

@@ -7,7 +7,7 @@ import com.deepak.internetspeed.services.TrafficStatusService
 
 class BReceiver : BroadcastReceiver(){
     override fun onReceive(context: Context?, intent: Intent?) {
-        var intentService = Intent(context,TrafficStatusService::class.java)
+        val intentService = Intent(context,TrafficStatusService::class.java)
         context!!.startService(intentService)
     }
 
