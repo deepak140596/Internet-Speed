@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
         intentService.setPackage(this.packageName)
         startService(intentService)
 
-
     }
 
     private fun createNotificationChannel() {
