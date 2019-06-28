@@ -21,7 +21,20 @@ class ConsumptionViewModel(application: Application) : AndroidViewModel(applicat
         allConsumptions = repository.allConsumptions
     }
 
+    fun getDayUsage() : LiveData<DailyConsumption>{
+        return repository.getDayUsage
+    }
+
     fun insert(dailyConsumption: DailyConsumption) = viewModelScope.launch(Dispatchers.IO){
         repository.insert(dailyConsumption)
     }
+
+    fun updateWifiUsage(timestamp : String, wifi : Long) = viewModelScope.launch(Dispatchers.IO){
+        repository.updateWifiUsage(timestamp,wifi)
+    }
+
+    fun updateMobileUsage(timestamp : String, mobile : Long) = viewModelScope.launch(Dispatchers.IO){
+        repository.updateMobileUsage(timestamp,mobile)
+    }
+    
 }

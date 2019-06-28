@@ -4,22 +4,26 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Icon
-import android.media.Image
 import android.os.Build
-import android.util.Log
+import androidx.lifecycle.LifecycleObserver
 import com.deepak.internetspeed.MainActivity
 import com.deepak.internetspeed.R
+import com.deepak.internetspeed.database.DailyConsumption
+import com.deepak.internetspeed.util.DateUtils
 import com.deepak.internetspeed.util.ImageUtils
 import com.deepak.internetspeed.util.TrafficUtils
+import com.deepak.internetspeed.viewmodels.ConsumptionViewModel
 import java.util.*
 
-class TrafficStatusService : IntentService("TrafficStatusService"){
+class TrafficStatusService : IntentService("TrafficStatusService"), LifecycleObserver{
     private var timer : Timer = Timer()
     private val DELAY = 0L
     private val DURATION = 1000L
     private val NOTIFICATION_ID = 1
     lateinit var notificationBuilder : Notification.Builder
     lateinit var notificationManager: NotificationManager
+
+    lateinit var consumptionViewModel: ConsumptionViewModel
 
     override fun onHandleIntent(intent: Intent?) {
 
@@ -28,11 +32,15 @@ class TrafficStatusService : IntentService("TrafficStatusService"){
     override fun onCreate() {
         super.onCreate()
 
+        consumptionViewModel = ConsumptionViewModel(application)
+
         createNotification()
 
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
-                updateNotification(TrafficUtils.getDownloadSpeed())
+                var downloadSpeed = TrafficUtils.getDownloadSpeed()
+                saveToDB(downloadSpeed)
+                updateNotification(downloadSpeed)
             }
         }, DELAY, DURATION)
     }
@@ -56,6 +64,22 @@ class TrafficStatusService : IntentService("TrafficStatusService"){
         val icon = Icon.createWithBitmap(bitmap)
         notificationBuilder.setSmallIcon(icon)
         notificationManager.notify(NOTIFICATION_ID,notificationBuilder.build())
+    }
+
+    fun saveToDB(downloadSpeed: String){
+        val speed : String = (downloadSpeed.subSequence(0, downloadSpeed.indexOf(" ")+1)).toString()
+        val units : String  = (downloadSpeed.subSequence(downloadSpeed.indexOf(" ")+1,downloadSpeed.length)).toString()
+
+        var dailyConsumption = DailyConsumption(DateUtils.getDayID(),0,0,0)
+        consumptionViewModel.insert(dailyConsumption)
+
+        val toBytes = TrafficUtils.convertToBytes(speed.toFloat(),units)
+
+        if(TrafficUtils.isWifiConnected(this)){
+            consumptionViewModel.updateWifiUsage(dailyConsumption.timestamp,toBytes)
+        } else {
+            consumptionViewModel.updateMobileUsage(dailyConsumption.timestamp,toBytes)
+        }
     }
 
     fun createNotification(){

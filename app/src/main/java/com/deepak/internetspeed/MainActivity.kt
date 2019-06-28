@@ -6,9 +6,17 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.deepak.internetspeed.database.DailyConsumption
 import com.deepak.internetspeed.services.TrafficStatusService
+import com.deepak.internetspeed.util.DateUtils
+import com.deepak.internetspeed.viewmodels.ConsumptionViewModel
 
 class MainActivity : AppCompatActivity() {
+
+    val TAG = "MAIN_ACTVITY"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         val intentService = Intent(this@MainActivity,TrafficStatusService::class.java)
         intentService.setPackage(this.packageName)
         startService(intentService)
+        getTodaysUsage()
 
     }
 
@@ -39,5 +48,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun getTodaysUsage(){
+        Log.e(TAG,"DAY ID: ${DateUtils.getDayID()}")
+        val viewModel = ViewModelProviders.of(this).get(ConsumptionViewModel::class.java)
+        viewModel.getDayUsage().observe(this, Observer<DailyConsumption>{
+            if( it != null) {
+                Log.d(TAG, "USAGE: ${it.total}")
+            }
+        })
+    }
 
 }

@@ -7,14 +7,14 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "daily_consumption")
 data class DailyConsumption(
     @PrimaryKey
-    var timestamp: Long,
+    var timestamp: String,
 
     @ColumnInfo(name = "mobile")
-    var mobile : Float,
+    var mobile : Long,
 
     @ColumnInfo(name = "wifi")
-    var wifi : Float,
+    var wifi : Long,
 
     @ColumnInfo(name = "total")
-    var total : Float
+    var total : Long
 )

@@ -15,7 +15,7 @@ public abstract class ConsumptionDatabase : RoomDatabase(){
 
         // Singleton pattern. Returns a single instance of ConsumptionDatabase
         fun getDatabase(context: Context) : ConsumptionDatabase{
-            val tempInstance = INSTANCE
+            var tempInstance = INSTANCE
             if(tempInstance != null){
                 return tempInstance
             }

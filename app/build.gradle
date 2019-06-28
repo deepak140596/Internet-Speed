@@ -1,10 +1,11 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'kotlin-kapt'
+
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
@@ -21,6 +22,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    packagingOptions {
+        pickFirst("META-INF/atomicfu.kotlin_module")
     }
 }
 
@@ -41,13 +45,10 @@ dependencies {
     kapt "androidx.lifecycle:lifecycle-compiler:2.0.0"
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha01'
 
-    // Coroutines
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.0"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0"
-
     // Room
-    implementation 'android.arch.persistence.room:runtime:2.1.0-alpha01'
-    annotationProcessor 'android.arch.persistence.room:compiler:2.1.0-alpha01'
+    implementation 'androidx.room:room-runtime:2.1.0'
+    implementation "androidx.room:room-ktx:2.1.0"
+    kapt "androidx.room:room-compiler:2.1.0"
 
     // Unit Testing
     testImplementation 'junit:junit:4.12'
