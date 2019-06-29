@@ -6,7 +6,7 @@ import androidx.room.*
 @Dao
 interface ConsumptionDAO{
 
-    @Query("SELECT * FROM daily_consumption ORDER BY timestamp DESC")
+    @Query("SELECT * FROM daily_consumption limit 30")
     fun getAll() : LiveData<List<DailyConsumption>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -14,6 +14,9 @@ interface ConsumptionDAO{
 
     @Query("SELECT * from daily_consumption where timestamp = :timestamp")
     fun getDayUsage(timestamp: String) : LiveData<DailyConsumption>
+
+    @Query("SELECT * from daily_consumption where timestamp = :timestamp")
+    fun getDayUsageInBackgroundThread(timestamp: String) : DailyConsumption
 
     @Query("UPDATE daily_consumption SET wifi = wifi + :wifi, total = total + :wifi WHERE timestamp = :timestamp")
     suspend fun updateWifiUsage( timestamp : String, wifi : Long)

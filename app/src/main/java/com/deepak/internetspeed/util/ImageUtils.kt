@@ -9,6 +9,8 @@ class ImageUtils{
     companion object{
 
         fun createBitmapFromString(speed: String, units: String) : Bitmap{
+            var unit = "$units/s"
+
             var paint = Paint()
             paint.isAntiAlias = true
             paint.textSize = 55F
@@ -23,7 +25,7 @@ class ImageUtils{
             paint.getTextBounds(speed,0,speed.length,speedBounds)
 
             var unitsBounds = Rect()
-            unitsPaint.getTextBounds(units,0,units.length,unitsBounds)
+            unitsPaint.getTextBounds(unit,0,unit.length,unitsBounds)
 
             var width = if(speedBounds.width() > unitsBounds.width()){
                 speedBounds.width()
@@ -36,7 +38,7 @@ class ImageUtils{
 
             var canvas = Canvas(bitmap)
             canvas.drawText(speed, (width/2F + 5), 50F, paint)
-            canvas.drawText(units, width/2F, 90F, unitsPaint)
+            canvas.drawText(unit, width/2F, 90F, unitsPaint)
 
             return bitmap
         }

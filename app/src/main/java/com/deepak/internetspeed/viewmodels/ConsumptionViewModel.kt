@@ -8,6 +8,7 @@ import com.deepak.internetspeed.database.ConsumptionDatabase
 import com.deepak.internetspeed.database.DailyConsumption
 import com.deepak.internetspeed.repository.ConsumptionRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class ConsumptionViewModel(application: Application) : AndroidViewModel(application){
@@ -36,5 +37,9 @@ class ConsumptionViewModel(application: Application) : AndroidViewModel(applicat
     fun updateMobileUsage(timestamp : String, mobile : Long) = viewModelScope.launch(Dispatchers.IO){
         repository.updateMobileUsage(timestamp,mobile)
     }
-    
+
+    fun getDayUsageInBackgroundThread(timestamp: String) : DailyConsumption{
+        return repository.getDayUsageInBackgroundThread(timestamp)
+    }
+
 }

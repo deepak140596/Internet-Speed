@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@color/colorPrimaryDark">
+
+
+    <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/custom_graph_line_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/custom_graph_usage_stats_ll"/>
+
+    <LinearLayout
+            android:id="@+id/custom_graph_usage_stats_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+            <TextView
+                    android:id="@+id/custom_graph_day_used_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="@dimen/padding_16"
+                    android:text="Used Today"
+                    android:layout_centerHorizontal="true"
+                    android:paddingLeft="@dimen/padding_16"
+                    android:paddingTop="@dimen/padding_16"
+                    android:textColor="@color/color_white"/>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/custom_graph_day_used_label">
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:id="@+id/custom_graph_day_used_mobile_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100 MB"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/color_white"
+                            android:layout_gravity="center_horizontal"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mobile"
+                            android:textColor="@color/color_white"
+                            android:layout_gravity="center_horizontal"
+                            android:paddingBottom="@dimen/padding_16"/>
+                </LinearLayout>
+
+                <View android:layout_width="1dp"
+                      android:layout_height="match_parent"
+                      android:background="@color/color_white"
+                      android:layout_marginTop="@dimen/margin_8"
+                      android:layout_marginBottom="@dimen/margin_16"/>
+
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:id="@+id/custom_graph_day_used_wifi_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="430 MB"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/color_white"
+                            android:layout_gravity="center_horizontal"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="WiFi"
+                            android:textColor="@color/color_white"
+                            android:layout_gravity="center_horizontal"
+                            android:paddingBottom="@dimen/padding_16"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+        <View android:layout_width="1dp"
+              android:layout_height="match_parent"
+              android:background="@color/color_white"
+              android:layout_marginTop="@dimen/margin_16"
+              android:layout_marginBottom="@dimen/margin_16"
+        />
+
+        <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+            <TextView
+                    android:id="@+id/custom_graph_monthly_used_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="@dimen/padding_16"
+                    android:text="Used This Month"
+                    android:layout_centerHorizontal="true"
+                    android:paddingLeft="@dimen/padding_16"
+                    android:paddingTop="@dimen/padding_16"
+                    android:textColor="@color/color_white"/>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_below="@id/custom_graph_monthly_used_label">
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:id="@+id/custom_graph_monthly_used_mobile_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="100 MB"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/color_white"
+                            android:layout_gravity="center_horizontal"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mobile"
+                            android:textColor="@color/color_white"
+                            android:layout_gravity="center_horizontal"
+                            android:paddingBottom="@dimen/padding_16"/>
+                </LinearLayout>
+
+                <View android:layout_width="1dp"
+                      android:layout_height="match_parent"
+                      android:background="@color/color_white"
+                      android:layout_marginTop="@dimen/margin_8"
+                      android:layout_marginBottom="@dimen/margin_16"/>
+
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:id="@+id/custom_graph_monthly_used_wifi_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="430 MB"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:layout_centerHorizontal="true"
+                            android:textColor="@color/color_white"
+                            android:layout_gravity="center_horizontal"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="WiFi"
+                            android:textColor="@color/color_white"
+                            android:layout_gravity="center_horizontal"
+                            android:paddingBottom="@dimen/padding_16"/>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

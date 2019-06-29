@@ -3,4 +3,8 @@
     <string name="channel_id">default</string>
     <string name="channel_name">Internet Speed Notification</string>
     <string name="channel_description">Network Speed Notification</string>
+    <string name="mobile_label">Mobile : </string>
+    <string name="wifi_label">WiFi : </string>
+    <string name="total_label">Total : </string>
+    <string name="speed_label">Speed : </string>
 </resources>

@@ -27,4 +27,9 @@ class ConsumptionRepository(val consumptionDAO: ConsumptionDAO){
         consumptionDAO.updateMobileUsage(timestamp, mobile)
     }
 
+    @WorkerThread
+    fun getDayUsageInBackgroundThread(timestamp: String) : DailyConsumption{
+        return consumptionDAO.getDayUsageInBackgroundThread(timestamp)
+    }
+
 }
