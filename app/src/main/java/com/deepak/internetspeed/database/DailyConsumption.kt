@@ -7,7 +7,10 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "daily_consumption")
 data class DailyConsumption(
     @PrimaryKey
-    var timestamp: String,
+    var dayID: String,
+
+    @ColumnInfo(name = "timestamp")
+    var timestamp : Long,
 
     @ColumnInfo(name = "mobile")
     var mobile : Long,

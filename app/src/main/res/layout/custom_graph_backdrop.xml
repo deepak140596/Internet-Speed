@@ -12,12 +12,22 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/custom_graph_usage_stats_ll"/>
 
+    <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/custom_graph_usage_type_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/margin_16"
+            android:entries="@array/usage_type"
+    />
+
     <LinearLayout
             android:id="@+id/custom_graph_usage_stats_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimaryDark">
 
         <RelativeLayout
                 android:layout_width="0dp"
@@ -52,7 +62,6 @@
                             android:layout_height="wrap_content"
                             android:text="100 MB"
                             android:textSize="24sp"
-                            android:textStyle="bold"
                             android:layout_centerHorizontal="true"
                             android:textColor="@color/color_white"
                             android:layout_gravity="center_horizontal"/>
@@ -84,7 +93,6 @@
                             android:layout_height="wrap_content"
                             android:text="430 MB"
                             android:textSize="24sp"
-                            android:textStyle="bold"
                             android:layout_centerHorizontal="true"
                             android:textColor="@color/color_white"
                             android:layout_gravity="center_horizontal"/>
@@ -142,7 +150,6 @@
                             android:layout_height="wrap_content"
                             android:text="100 MB"
                             android:textSize="24sp"
-                            android:textStyle="bold"
                             android:layout_centerHorizontal="true"
                             android:textColor="@color/color_white"
                             android:layout_gravity="center_horizontal"/>
@@ -174,7 +181,6 @@
                             android:layout_height="wrap_content"
                             android:text="430 MB"
                             android:textSize="24sp"
-                            android:textStyle="bold"
                             android:layout_centerHorizontal="true"
                             android:textColor="@color/color_white"
                             android:layout_gravity="center_horizontal"/>

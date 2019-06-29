@@ -78,8 +78,16 @@ class TrafficStatusService : IntentService("TrafficStatusService"), LifecycleOwn
         // set notification details : Speed, mobile and wifi usage
         notificationLayout.setTextViewText(R.id.custom_notification_speed_tv,"$downloadSpeed/s")
         val it = consumptionViewModel.getDayUsageInBackgroundThread(DateUtils.getDayID())
-        notificationLayout.setTextViewText(R.id.custom_notification_mobile_tv,TrafficUtils.getMetricData(it.mobile))
-        notificationLayout.setTextViewText(R.id.custom_notification_wifi_tv,TrafficUtils.getMetricData(it.wifi))
+
+        if(it != null) {
+            notificationLayout.setTextViewText(
+                R.id.custom_notification_mobile_tv,
+                TrafficUtils.getMetricData(it.mobile)
+            )
+            notificationLayout.setTextViewText(
+                R.id.custom_notification_wifi_tv,
+                TrafficUtils.getMetricData(it.wifi))
+        }
 
         notificationManager.notify(NOTIFICATION_ID,notificationBuilder.build())
     }
@@ -88,7 +96,7 @@ class TrafficStatusService : IntentService("TrafficStatusService"), LifecycleOwn
         val speed : String = (downloadSpeed.subSequence(0, downloadSpeed.indexOf(" ")+1)).toString()
         val units : String  = (downloadSpeed.subSequence(downloadSpeed.indexOf(" ")+1,downloadSpeed.length)).toString()
 
-        var dailyConsumption = DailyConsumption(DateUtils.getDayID(),0,0,0)
+        var dailyConsumption = DailyConsumption(DateUtils.getDayID(),System.currentTimeMillis(),0,0,0)
 
         // Insert or ignore
         consumptionViewModel.insert(dailyConsumption)
@@ -96,9 +104,9 @@ class TrafficStatusService : IntentService("TrafficStatusService"), LifecycleOwn
         val toBytes = TrafficUtils.convertToBytes(speed.toFloat(),units)
 
         if(TrafficUtils.isWifiConnected(this)){
-            consumptionViewModel.updateWifiUsage(dailyConsumption.timestamp,toBytes)
+            consumptionViewModel.updateWifiUsage(dailyConsumption.dayID,toBytes)
         } else {
-            consumptionViewModel.updateMobileUsage(dailyConsumption.timestamp,toBytes)
+            consumptionViewModel.updateMobileUsage(dailyConsumption.dayID,toBytes)
         }
 
     }

@@ -35,7 +35,7 @@ class RowDailyUsageAdapter(var allUsage: List<DailyConsumption>)
             itemView.row_daily_usage_wifi_tv.text = TrafficUtils.getMetricData(dailyConsumption.wifi)
             itemView.row_daily_usage_total_tv.text = TrafficUtils.getMetricData(dailyConsumption.total)
 
-            itemView.row_daily_usage_date_tv.text = dailyConsumption.timestamp
+            itemView.row_daily_usage_date_tv.text = dailyConsumption.dayID
         }
     }
 }

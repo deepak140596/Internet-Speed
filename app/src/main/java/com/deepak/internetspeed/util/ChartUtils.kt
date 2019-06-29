@@ -10,7 +10,7 @@ class ChartUtils {
             var entries : MutableList<Entry> = mutableListOf()
             var xEntry = 0.0F
 
-            for(dailyConsumption in listConsumption){
+            for(dailyConsumption in listConsumption.asReversed()){
                 var entry = Entry(xEntry,dailyConsumption.mobile.toFloat())
                 xEntry += 1
                 entries.add(entry)
@@ -22,7 +22,7 @@ class ChartUtils {
             var entries : MutableList<Entry> = mutableListOf()
             var xEntry = 0.0F
 
-            for(dailyConsumption in listConsumption){
+            for(dailyConsumption in listConsumption.asReversed()){
                 var entry = Entry(xEntry,dailyConsumption.wifi.toFloat())
                 xEntry += 1
                 entries.add(entry)

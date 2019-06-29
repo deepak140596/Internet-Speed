@@ -3,11 +3,13 @@ package com.deepak.internetspeed.activities.summary
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.LinearLayout
+import android.widget.AdapterView
+import android.widget.Spinner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +17,6 @@ import com.deepak.internetspeed.R
 import com.deepak.internetspeed.database.DailyConsumption
 import com.deepak.internetspeed.services.TrafficStatusService
 import com.deepak.internetspeed.util.ChartUtils
-import com.deepak.internetspeed.util.DateUtils
 import com.deepak.internetspeed.util.TrafficUtils
 import com.deepak.internetspeed.viewmodels.ConsumptionViewModel
 import com.github.mikephil.charting.data.Entry
@@ -23,6 +24,11 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.custom_graph_backdrop.*
+import android.widget.AdapterView.OnItemSelectedListener
+
+import android.view.View
+import com.deepak.internetspeed.util.LargeValueFormatterBytes
+
 
 class SummaryActivity : AppCompatActivity() {
 
@@ -30,7 +36,11 @@ class SummaryActivity : AppCompatActivity() {
     lateinit var adapter: RowDailyUsageAdapter
     lateinit var viewModel: ConsumptionViewModel
     var allUsage : List<DailyConsumption> = emptyList()
-    var chartUpdated = false
+
+    var ischartUpdated = false
+    var isWifiSelected = false
+
+    lateinit var spinner : Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +53,7 @@ class SummaryActivity : AppCompatActivity() {
         startService(intentService)
 
         setupRecyclerView()
+        setupSpinner()
         getAllUsage()
 
     }
@@ -68,16 +79,21 @@ class SummaryActivity : AppCompatActivity() {
     fun getAllUsage(){
         viewModel = ViewModelProviders.of(this).get(ConsumptionViewModel::class.java)
         viewModel.allConsumptions.observe(this, Observer<List<DailyConsumption>>{ dailyConsumption ->
-            if( dailyConsumption != null) {
+            if( dailyConsumption != null && dailyConsumption.isNotEmpty()) {
                 allUsage = dailyConsumption
                 adapter.allUsage = allUsage
                 adapter.notifyDataSetChanged()
 
                 setupUsageStats(allUsage)
-                val networkEntries = ChartUtils.getDailyMobileConsumptionEntries(allUsage)
-                if(!chartUpdated) {
+                val networkEntries : List<Entry>
+                if(!isWifiSelected) {
+                    networkEntries = ChartUtils.getDailyMobileConsumptionEntries(allUsage)
+                }else{
+                    networkEntries = ChartUtils.getDailyWifiConsumptionEntries(allUsage)
+                }
+                if(!ischartUpdated) {
                     setupLineChart(networkEntries)
-                    chartUpdated = true
+                    ischartUpdated = true
                 }
             }
         })
@@ -94,10 +110,28 @@ class SummaryActivity : AppCompatActivity() {
 
         try{
             var lineDataset = LineDataSet(entries,"Usage")
+            lineDataset.fillColor = Color.LTGRAY
+            lineDataset.setDrawFilled(true)
+            lineDataset.valueTextColor = Color.WHITE
 
             var lineData = LineData(lineDataset)
+            lineData.setValueFormatter(LargeValueFormatterBytes())
+
+            custom_graph_line_chart.description.isEnabled = false
+
             var xAxis = custom_graph_line_chart.xAxis
-            xAxis.setLabelCount(0,true)
+            xAxis.setDrawAxisLine(false)
+            xAxis.setDrawLabels(false)
+            xAxis.setDrawGridLines(false)
+
+            var leftAxis = custom_graph_line_chart.axisLeft
+            custom_graph_line_chart.axisRight.isEnabled = false
+
+            leftAxis.setDrawLabels(false)
+            leftAxis.setDrawAxisLine(false)
+            leftAxis.setDrawGridLines(false)
+            leftAxis.setDrawZeroLine(false)
+
             custom_graph_line_chart.animateX(1000)
             custom_graph_line_chart.data = lineData
 
@@ -118,9 +152,27 @@ class SummaryActivity : AppCompatActivity() {
         custom_graph_monthly_used_wifi_tv.text = TrafficUtils.getMetricData(monthlyWifi)
     }
 
+    fun setupSpinner(){
+
+        custom_graph_usage_type_spinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(arg0: AdapterView<*>, v: View, position: Int, id: Long) {
+                isWifiSelected = position != 0
+                ischartUpdated = false
+            }
+
+            override fun onNothingSelected(arg0: AdapterView<*>) {
+                Log.v(
+                    "NothingSelected Item",
+                    "" + spinner.selectedItem
+                )
+            }
+        }
+
+    }
+
     override fun onResume() {
         super.onResume()
-        chartUpdated = false
+        ischartUpdated = false
     }
 
 }

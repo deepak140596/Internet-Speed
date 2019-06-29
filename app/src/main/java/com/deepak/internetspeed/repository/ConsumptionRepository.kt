@@ -18,18 +18,18 @@ class ConsumptionRepository(val consumptionDAO: ConsumptionDAO){
     }
 
     @WorkerThread
-    suspend fun updateWifiUsage(timestamp : String, wifi : Long){
-        consumptionDAO.updateWifiUsage(timestamp, wifi)
+    suspend fun updateWifiUsage(dayID : String, wifi : Long){
+        consumptionDAO.updateWifiUsage(dayID, wifi)
     }
 
     @WorkerThread
-    suspend fun updateMobileUsage(timestamp : String, mobile : Long){
-        consumptionDAO.updateMobileUsage(timestamp, mobile)
+    suspend fun updateMobileUsage(dayID : String, mobile : Long){
+        consumptionDAO.updateMobileUsage(dayID, mobile)
     }
 
     @WorkerThread
-    fun getDayUsageInBackgroundThread(timestamp: String) : DailyConsumption{
-        return consumptionDAO.getDayUsageInBackgroundThread(timestamp)
+    fun getDayUsageInBackgroundThread(dayID: String) : DailyConsumption{
+        return consumptionDAO.getDayUsageInBackgroundThread(dayID)
     }
 
 }

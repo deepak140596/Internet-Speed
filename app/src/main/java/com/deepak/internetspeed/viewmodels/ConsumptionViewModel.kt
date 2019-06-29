@@ -30,16 +30,16 @@ class ConsumptionViewModel(application: Application) : AndroidViewModel(applicat
         repository.insert(dailyConsumption)
     }
 
-    fun updateWifiUsage(timestamp : String, wifi : Long) = viewModelScope.launch(Dispatchers.IO){
-        repository.updateWifiUsage(timestamp,wifi)
+    fun updateWifiUsage(dayID : String, wifi : Long) = viewModelScope.launch(Dispatchers.IO){
+        repository.updateWifiUsage(dayID,wifi)
     }
 
-    fun updateMobileUsage(timestamp : String, mobile : Long) = viewModelScope.launch(Dispatchers.IO){
-        repository.updateMobileUsage(timestamp,mobile)
+    fun updateMobileUsage(dayID : String, mobile : Long) = viewModelScope.launch(Dispatchers.IO){
+        repository.updateMobileUsage(dayID,mobile)
     }
 
-    fun getDayUsageInBackgroundThread(timestamp: String) : DailyConsumption{
-        return repository.getDayUsageInBackgroundThread(timestamp)
+    fun getDayUsageInBackgroundThread(dayID: String) : DailyConsumption{
+        return repository.getDayUsageInBackgroundThread(dayID)
     }
 
 }

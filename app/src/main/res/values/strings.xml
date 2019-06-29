@@ -7,4 +7,9 @@
     <string name="wifi_label">WiFi : </string>
     <string name="total_label">Total : </string>
     <string name="speed_label">Speed : </string>
+
+    <string-array name="usage_type">
+        <item>Mobile</item>
+        <item>WiFi</item>
+    </string-array>
 </resources>
