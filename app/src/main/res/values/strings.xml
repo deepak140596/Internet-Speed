@@ -19,6 +19,7 @@
     <string name="label_night_mode">Night Mode</string>
     <string name="hint_choose_email">Choose Email Client</string>
     <string name="subject_feedback">Feedback</string>
+    <string name="privacy_policy_url">https://github.com/deepak140596/Internet-Speed/blob/master/privacy_policy.md#privacy-policy</string>
 
     <string-array name="usage_type">
         <item>Mobile</item>

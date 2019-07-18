@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract.Directory.PACKAGE_NAME
+import androidx.appcompat.app.AppCompatDelegate
 import com.deepak.internetspeed.R
 import com.deepak.internetspeed.database.SharedPreferenceDB
 import kotlinx.android.synthetic.main.activity_settings.*
@@ -27,20 +28,16 @@ class SettingsActivity : AppCompatActivity() {
 
         profile_theme_switch.setOnCheckedChangeListener { _ , isChecked ->
             SharedPreferenceDB.setNightMode(this@SettingsActivity,isChecked)
-            profile_theme_switch.isChecked = isChecked
-
-            // TODO recreate not working
-            recreate()
+            setupDarkTheme()
         }
     }
 
     private fun setupNotifications(){
-        var notifications = SharedPreferenceDB.isNotificationEnabled(this)
-        settings_notification_enable_switch.isChecked = notifications
+        var notificationEnabled = SharedPreferenceDB.isNotificationEnabled(this)
+        settings_notification_enable_switch.isChecked = notificationEnabled
 
         settings_notification_enable_switch.setOnCheckedChangeListener { _ , isChecked ->
             SharedPreferenceDB.setNotification(this@SettingsActivity, isChecked)
-            settings_notification_enable_switch.isChecked = isChecked
         }
     }
 
@@ -59,7 +56,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         settings_privacy_policy_tv.setOnClickListener { view ->
-            // TODO add a privacy policy
+            startIntent(getString(R.string.privacy_policy_url))
         }
     }
 
@@ -76,5 +73,13 @@ class SettingsActivity : AppCompatActivity() {
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)
         startActivity(i)
+    }
+
+    fun setupDarkTheme(){
+        if(SharedPreferenceDB.getNightMode(this)){
+            delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
     }
 }
