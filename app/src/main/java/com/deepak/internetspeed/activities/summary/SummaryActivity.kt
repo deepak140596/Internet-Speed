@@ -8,6 +8,8 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.AdapterView
 import android.widget.Spinner
 import androidx.lifecycle.Observer
@@ -27,6 +29,9 @@ import kotlinx.android.synthetic.main.custom_graph_backdrop.*
 import android.widget.AdapterView.OnItemSelectedListener
 
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
+import com.deepak.internetspeed.activities.settings.SettingsActivity
+import com.deepak.internetspeed.database.SharedPreferenceDB
 import com.deepak.internetspeed.util.LargeValueFormatterBytes
 
 
@@ -55,12 +60,9 @@ class SummaryActivity : AppCompatActivity() {
         setupRecyclerView()
         setupSpinner()
         getAllUsage()
-
     }
 
     private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = getString(R.string.channel_name)
@@ -69,8 +71,7 @@ class SummaryActivity : AppCompatActivity() {
             val channel = NotificationChannel(getString(R.string.channel_id), name, importance)
             channel.description = description
             channel.setSound(null,null)
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
+
             val notificationManager = getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
         }
@@ -155,7 +156,7 @@ class SummaryActivity : AppCompatActivity() {
     fun setupSpinner(){
 
         custom_graph_usage_type_spinner.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(arg0: AdapterView<*>, v: View, position: Int, id: Long) {
+            override fun onItemSelected(arg0: AdapterView<*>, v: View?, position: Int, id: Long) {
                 isWifiSelected = position != 0
                 ischartUpdated = false
             }
@@ -170,9 +171,32 @@ class SummaryActivity : AppCompatActivity() {
 
     }
 
+    fun setupTheme(){
+        if(SharedPreferenceDB.getNightMode(this)){
+            delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
+        setupTheme()
         ischartUpdated = false
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main,menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(item!!.itemId == R.id.menu_settings){
+            startActivity(Intent(this,SettingsActivity::class.java))
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
 
 }

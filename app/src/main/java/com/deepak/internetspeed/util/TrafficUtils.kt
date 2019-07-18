@@ -17,7 +17,7 @@ class TrafficUtils{
 
             var downloadSpeedOutput = ""
             var units = ""
-            val mBytesPrevious = TrafficStats.getTotalRxBytes() + TrafficStats.getTotalTxPackets()
+            val mBytesPrevious = TrafficStats.getTotalRxBytes() + TrafficStats.getTotalTxBytes()
 
             try {
                 Thread.sleep(1000)
@@ -25,7 +25,7 @@ class TrafficUtils{
                 e.printStackTrace()
             }
 
-            val mBytesCurrent = TrafficStats.getTotalRxBytes() + TrafficStats.getTotalTxPackets()
+            val mBytesCurrent = TrafficStats.getTotalRxBytes() + TrafficStats.getTotalTxBytes()
 
             val mNetworkSpeed = mBytesCurrent - mBytesPrevious
 
@@ -122,7 +122,7 @@ class TrafficUtils{
             return total
         }
 
-        fun getMonthlyUsage(listDailyConsumption : List<DailyConsumption>): Long {
+        fun getMonthlyTotalUsage(listDailyConsumption : List<DailyConsumption>): Long {
             var total : Long = 0L
             for (dailyConsumption in listDailyConsumption){
                 total += dailyConsumption.total

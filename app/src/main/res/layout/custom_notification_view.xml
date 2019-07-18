@@ -22,7 +22,6 @@
                 android:id="@+id/custom_notification_speed_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="456 KB/s"
                 android:layout_marginTop="@dimen/margin_16"
                 android:layout_marginStart="@dimen/margin_4"
                 style="@style/TextAppearance.Compat.Notification.Title"/>
@@ -45,8 +44,7 @@
                 android:id="@+id/custom_notification_mobile_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_4"
-                android:text="987 MB"/>
+                android:layout_marginStart="@dimen/margin_4"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -58,8 +56,7 @@
                 android:id="@+id/custom_notification_wifi_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_4"
-                android:text="1.5 GB"/>
+                android:layout_marginStart="@dimen/margin_4"/>
     </LinearLayout>
 
 

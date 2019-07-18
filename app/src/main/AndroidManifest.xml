@@ -12,8 +12,14 @@
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
-        <activity android:name=".activities.summary.SummaryActivity">
+            android:theme="@style/AppTheme.DayNight">
+        <activity android:name=".activities.settings.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.DayNight">
+        </activity>
+        <activity android:name=".activities.summary.SummaryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.DayNight">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -21,11 +27,11 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".services.TrafficStatusService" />
+        <service android:name=".services.TrafficStatusService"/>
 
-        <receiver android:name=".broadcastreceiver.BReceiver" >
+        <receiver android:name=".broadcastreceiver.BReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
     </application>

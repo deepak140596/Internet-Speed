@@ -3,10 +3,22 @@
     <string name="channel_id">default</string>
     <string name="channel_name">Internet Speed Notification</string>
     <string name="channel_description">Network Speed Notification</string>
-    <string name="mobile_label">Mobile : </string>
-    <string name="wifi_label">WiFi : </string>
-    <string name="total_label">Total : </string>
-    <string name="speed_label">Speed : </string>
+    <string name="mobile_label">Mobile :</string>
+    <string name="wifi_label">WiFi :</string>
+    <string name="total_label">Total :</string>
+    <string name="speed_label">Speed :</string>
+    <string name="app_version">1.0</string>
+    <string name="send_feedback">Send Feedback</string>
+
+    <string name="email_id">locallidelivers107@gmail.com</string>
+    <string name="made_in_india">Made with ❤ in India!</string>
+    <string name="github_id">https://github.com/deepak140596</string>
+    <string name="playstore_id">https://play.google.com/store/apps/developer?id=Localli+Delivers</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="label_enable_notifications">Enable Notification</string>
+    <string name="label_night_mode">Night Mode</string>
+    <string name="hint_choose_email">Choose Email Client</string>
+    <string name="subject_feedback">Feedback</string>
 
     <string-array name="usage_type">
         <item>Mobile</item>

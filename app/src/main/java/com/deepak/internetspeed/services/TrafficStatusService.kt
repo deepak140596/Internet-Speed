@@ -10,6 +10,7 @@ import androidx.lifecycle.*
 import com.deepak.internetspeed.activities.summary.SummaryActivity
 import com.deepak.internetspeed.R
 import com.deepak.internetspeed.database.DailyConsumption
+import com.deepak.internetspeed.database.SharedPreferenceDB
 import com.deepak.internetspeed.util.DateUtils
 import com.deepak.internetspeed.util.ImageUtils
 import com.deepak.internetspeed.util.TrafficUtils
@@ -40,13 +41,15 @@ class TrafficStatusService : IntentService("TrafficStatusService"), LifecycleOwn
         registry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
         consumptionViewModel = ConsumptionViewModel(application)
 
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         createNotification()
 
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 var downloadSpeed = TrafficUtils.getNetworkSpeed()
+
                 saveToDB(downloadSpeed)
-                updateNotification(downloadSpeed)
+                showNotificationIfEnabled(downloadSpeed)
             }
         }, DELAY, DURATION)
     }
@@ -66,6 +69,22 @@ class TrafficStatusService : IntentService("TrafficStatusService"), LifecycleOwn
         return lifecycle
     }
 
+    fun showNotificationIfEnabled(downloadSpeed: String){
+        val speed : String = (downloadSpeed.subSequence(0, downloadSpeed.indexOf(" ")+1)).toString()
+
+        if(SharedPreferenceDB.isNotificationEnabled(this)){
+            if(speed.toFloat() != 0F){
+                startForeground(NOTIFICATION_ID, notificationBuilder.build())
+                updateNotification(downloadSpeed)
+            } else {
+                stopForeground(true)
+                notificationManager.cancel(NOTIFICATION_ID)
+            }
+        } else {
+            stopForeground(true)
+            notificationManager.cancel(NOTIFICATION_ID)
+        }
+    }
 
     fun updateNotification(downloadSpeed : String){
         val speed = downloadSpeed.subSequence(0, downloadSpeed.indexOf(" ")+1)
@@ -123,19 +142,13 @@ class TrafficStatusService : IntentService("TrafficStatusService"), LifecycleOwn
         notificationBuilder.setSmallIcon(Icon.createWithBitmap(ImageUtils.createBitmapFromString("0", " KB")))
         notificationBuilder.setVisibility(Notification.VISIBILITY_PUBLIC)
         notificationBuilder.setOngoing(true)
+        notificationBuilder.setAutoCancel(true)
         setNotificationContent()
+        notificationBuilder.setContentIntent(createPendingIntent())
 
-        var intent = Intent(this, SummaryActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        var pendingIntent = PendingIntent.getActivity(this,0,intent,
-            PendingIntent.FLAG_UPDATE_CURRENT)
+        //notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
 
-        notificationBuilder.setContentIntent(pendingIntent)
-
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
-
-        startForeground(NOTIFICATION_ID, notificationBuilder.build())
+        //startForeground(NOTIFICATION_ID, notificationBuilder.build())
     }
 
     fun setNotificationContent(){
@@ -145,6 +158,15 @@ class TrafficStatusService : IntentService("TrafficStatusService"), LifecycleOwn
         }else{
             notificationBuilder.setContent(notificationLayout)
         }
+    }
+
+    fun createPendingIntent(): PendingIntent? {
+        var intent = Intent(this, SummaryActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        var pendingIntent = PendingIntent.getActivity(this,0,intent,
+            PendingIntent.FLAG_UPDATE_CURRENT)
+
+        return pendingIntent
     }
 
 }
