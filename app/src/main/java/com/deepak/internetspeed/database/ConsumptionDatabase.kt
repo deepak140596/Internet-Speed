@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(entities = arrayOf(DailyConsumption::class), version = 1)
-public abstract class ConsumptionDatabase : RoomDatabase(){
+abstract class ConsumptionDatabase : RoomDatabase(){
     abstract fun consumptionDAO() : ConsumptionDAO
 
     companion object{

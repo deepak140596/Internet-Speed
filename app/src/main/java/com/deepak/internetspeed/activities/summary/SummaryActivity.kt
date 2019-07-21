@@ -37,12 +37,12 @@ import com.deepak.internetspeed.util.LargeValueFormatterBytes
 
 class SummaryActivity : AppCompatActivity() {
 
-    val TAG = "MAIN_ACTVITY"
+    private val TAG = "MAIN_ACTVITY"
     lateinit var adapter: RowDailyUsageAdapter
     lateinit var viewModel: ConsumptionViewModel
     var allUsage : List<DailyConsumption> = emptyList()
 
-    var ischartUpdated = false
+    var isChartUpdated = false
     var isWifiSelected = false
 
     lateinit var spinner : Spinner
@@ -77,7 +77,7 @@ class SummaryActivity : AppCompatActivity() {
         }
     }
 
-    fun getAllUsage(){
+    private fun getAllUsage(){
         viewModel = ViewModelProviders.of(this).get(ConsumptionViewModel::class.java)
         viewModel.allConsumptions.observe(this, Observer<List<DailyConsumption>>{ dailyConsumption ->
             if( dailyConsumption != null && dailyConsumption.isNotEmpty()) {
@@ -92,21 +92,21 @@ class SummaryActivity : AppCompatActivity() {
                 }else{
                     networkEntries = ChartUtils.getDailyWifiConsumptionEntries(allUsage)
                 }
-                if(!ischartUpdated) {
+                if(!isChartUpdated) {
                     setupLineChart(networkEntries)
-                    ischartUpdated = true
+                    isChartUpdated = true
                 }
             }
         })
     }
 
-    fun setupRecyclerView(){
+    private fun setupRecyclerView(){
         activity_main_recycler_view.layoutManager = LinearLayoutManager(this)
         adapter = RowDailyUsageAdapter(allUsage)
         activity_main_recycler_view.adapter = adapter
     }
 
-    fun setupLineChart(entries: List<Entry>){
+    private fun setupLineChart(entries: List<Entry>){
         custom_graph_line_chart.invalidate()
 
         try{
@@ -141,7 +141,7 @@ class SummaryActivity : AppCompatActivity() {
         }
     }
 
-    fun setupUsageStats(listDailyConsumption: List<DailyConsumption>){
+    private fun setupUsageStats(listDailyConsumption: List<DailyConsumption>){
         val dailyMobile = listDailyConsumption[0].mobile
         val dailyWifi = listDailyConsumption[0].wifi
         val monthlyMobile = TrafficUtils.getMonthlyMobileUsage(listDailyConsumption)
@@ -153,12 +153,12 @@ class SummaryActivity : AppCompatActivity() {
         custom_graph_monthly_used_wifi_tv.text = TrafficUtils.getMetricData(monthlyWifi)
     }
 
-    fun setupSpinner(){
+    private fun setupSpinner(){
 
         custom_graph_usage_type_spinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(arg0: AdapterView<*>, v: View?, position: Int, id: Long) {
                 isWifiSelected = position != 0
-                ischartUpdated = false
+                isChartUpdated = false
             }
 
             override fun onNothingSelected(arg0: AdapterView<*>) {
@@ -171,7 +171,7 @@ class SummaryActivity : AppCompatActivity() {
 
     }
 
-    fun setupTheme(){
+    private fun setupTheme(){
         if(SharedPreferenceDB.getNightMode(this)){
             delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
@@ -182,7 +182,7 @@ class SummaryActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         setupTheme()
-        ischartUpdated = false
+        isChartUpdated = false
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

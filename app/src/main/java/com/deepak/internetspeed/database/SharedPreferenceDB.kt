@@ -36,5 +36,21 @@ class SharedPreferenceDB{
             editor.apply()
             editor.commit()
         }
+
+        fun isPersistentNotification(context : Context) : Boolean {
+            var sharedPreferences = context.getSharedPreferences(ApplicationConstants.defaultSharedPreferences,Context.MODE_PRIVATE)
+            var notifications = sharedPreferences.getBoolean(ApplicationConstants.persistentNotification,true)
+
+            return notifications
+        }
+
+        fun setPersistentNotification(context: Context, nightMode: Boolean){
+            var sharedPreferenceDB = context.getSharedPreferences(ApplicationConstants.defaultSharedPreferences,Context.MODE_PRIVATE)
+            var editor =  sharedPreferenceDB.edit()
+
+            editor.putBoolean(ApplicationConstants.persistentNotification, nightMode)
+            editor.apply()
+            editor.commit()
+        }
     }
 }

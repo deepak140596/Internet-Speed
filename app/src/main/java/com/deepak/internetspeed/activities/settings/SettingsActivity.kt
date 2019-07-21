@@ -16,32 +16,39 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        title = getString(R.string.settings_title)
         setupTheme()
         setupNotifications()
         setupAboutUs()
 
     }
 
-    private fun setupTheme(){
+    private fun setupTheme() {
         var isNightMode = SharedPreferenceDB.getNightMode(this)
         profile_theme_switch.isChecked = isNightMode
 
-        profile_theme_switch.setOnCheckedChangeListener { _ , isChecked ->
-            SharedPreferenceDB.setNightMode(this@SettingsActivity,isChecked)
+        profile_theme_switch.setOnCheckedChangeListener { _, isChecked ->
+            SharedPreferenceDB.setNightMode(this@SettingsActivity, isChecked)
             setupDarkTheme()
         }
     }
 
-    private fun setupNotifications(){
+    private fun setupNotifications() {
         var notificationEnabled = SharedPreferenceDB.isNotificationEnabled(this)
+        var persistentNotification = SharedPreferenceDB.isPersistentNotification(this)
         settings_notification_enable_switch.isChecked = notificationEnabled
+        settings_persistent_notification_switch.isChecked = persistentNotification
 
-        settings_notification_enable_switch.setOnCheckedChangeListener { _ , isChecked ->
+        settings_notification_enable_switch.setOnCheckedChangeListener { _, isChecked ->
             SharedPreferenceDB.setNotification(this@SettingsActivity, isChecked)
+        }
+
+        settings_persistent_notification_switch.setOnCheckedChangeListener { _, isChecked ->
+            SharedPreferenceDB.setPersistentNotification(this@SettingsActivity, isChecked)
         }
     }
 
-    private fun setupAboutUs(){
+    private fun setupAboutUs() {
         settings_rate_us_ll.setOnClickListener { view ->
             startActivity(
                 Intent(
@@ -75,8 +82,8 @@ class SettingsActivity : AppCompatActivity() {
         startActivity(i)
     }
 
-    fun setupDarkTheme(){
-        if(SharedPreferenceDB.getNightMode(this)){
+    private fun setupDarkTheme() {
+        if (SharedPreferenceDB.getNightMode(this)) {
             delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
             delegate.setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO)

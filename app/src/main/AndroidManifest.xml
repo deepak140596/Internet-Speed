@@ -15,7 +15,8 @@
             android:theme="@style/AppTheme.DayNight">
         <activity android:name=".activities.settings.SettingsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.DayNight">
+            android:theme="@style/AppTheme.DayNight"
+            android:parentActivityName=".activities.summary.SummaryActivity">
         </activity>
         <activity android:name=".activities.summary.SummaryActivity"
             android:screenOrientation="portrait"

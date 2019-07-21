@@ -69,11 +69,11 @@ class TrafficStatusService : IntentService("TrafficStatusService"), LifecycleOwn
         return lifecycle
     }
 
-    fun showNotificationIfEnabled(downloadSpeed: String){
-        val speed : String = (downloadSpeed.subSequence(0, downloadSpeed.indexOf(" ")+1)).toString()
+    fun showNotificationIfEnabled(downloadSpeed: String) {
+        val speed: String = (downloadSpeed.subSequence(0, downloadSpeed.indexOf(" ") + 1)).toString()
 
-        if(SharedPreferenceDB.isNotificationEnabled(this)){
-            if(speed.toFloat() != 0F){
+        if (SharedPreferenceDB.isNotificationEnabled(this)) {
+            if (speed.toFloat() != 0F || SharedPreferenceDB.isPersistentNotification(this)) {
                 startForeground(NOTIFICATION_ID, notificationBuilder.build())
                 updateNotification(downloadSpeed)
             } else {
@@ -86,7 +86,7 @@ class TrafficStatusService : IntentService("TrafficStatusService"), LifecycleOwn
         }
     }
 
-    fun updateNotification(downloadSpeed : String){
+    private fun updateNotification(downloadSpeed : String){
         val speed = downloadSpeed.subSequence(0, downloadSpeed.indexOf(" ")+1)
         val units = downloadSpeed.subSequence(downloadSpeed.indexOf(" ")+1,downloadSpeed.length)
 
@@ -130,7 +130,7 @@ class TrafficStatusService : IntentService("TrafficStatusService"), LifecycleOwn
 
     }
 
-    fun createNotification(){
+    private fun createNotification(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationBuilder = Notification.Builder(this,getString(R.string.channel_id))
         } else{
@@ -146,12 +146,9 @@ class TrafficStatusService : IntentService("TrafficStatusService"), LifecycleOwn
         setNotificationContent()
         notificationBuilder.setContentIntent(createPendingIntent())
 
-        //notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
-
-        //startForeground(NOTIFICATION_ID, notificationBuilder.build())
     }
 
-    fun setNotificationContent(){
+    private fun setNotificationContent(){
         notificationLayout = RemoteViews("com.deepak.internetspeed",R.layout.custom_notification_view)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             notificationBuilder.setCustomContentView(notificationLayout)
@@ -160,7 +157,7 @@ class TrafficStatusService : IntentService("TrafficStatusService"), LifecycleOwn
         }
     }
 
-    fun createPendingIntent(): PendingIntent? {
+    private fun createPendingIntent(): PendingIntent? {
         var intent = Intent(this, SummaryActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         var pendingIntent = PendingIntent.getActivity(this,0,intent,

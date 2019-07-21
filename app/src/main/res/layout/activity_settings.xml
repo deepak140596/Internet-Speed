@@ -23,6 +23,15 @@
                 android:textStyle="bold"/>
 
         <Switch
+                android:id="@+id/settings_persistent_notification_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_enable_persistent_notification"
+                android:padding="@dimen/padding_16"
+                android:textColor="?attr/colorControlNormal"
+                android:textStyle="bold"/>
+
+        <Switch
                 android:id="@+id/profile_theme_switch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
